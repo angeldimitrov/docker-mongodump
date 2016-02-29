@@ -1,21 +1,15 @@
 istepanov/mongodump
 ===================
 
-Docker image with mongodump running as a cron task
+Docker image with mongodump running as a cron task based on istepanov/mongodump with s3 support added to push the backups straight to aws's s3
 
 ### Usage
 
-Attach a target mongo container to this container and mount a volume to container's `/data` folder. Backups will appear in this volume. Optionally set up cron job schedule (default is `0 1 * * *` - runs every day at 1:00 am).
-
     docker run -d \
-        -v /path/to/target/folder:/backup \ # where to put backups
         -e 'CRON_SCHEDULE=0 1 * * *' \      # cron job schedule
-        --link my-mongo-container:mongo \   # linked container with running mongo
-        istepanov/mongodump
-
-To run backup once without cron job, add `no-cron` parameter:
-
-    docker run --rm \
-        -v /path/to/target/folder:/backup \ # where to put backups
-        --link my-mongo-container:mongo \   # linked container with running mongo
-        istepanov/mongodump no-cron
+        -e 'MONGO_PORT_27017_TCP_ADDR=mongo' \
+        -e 'MONGO_PORT_27017_TCP_PORT=27017' \
+        -e 'S3_ACCESS_KEY=YOUR_S3_ACCESS_KEY' \
+        -e 'S3_SECRET_KEY=YOUR_S3_SECRET_KEY' \
+        -e 'S3_BUCKET=s3://YOUR_S3_BUCKET' \
+        angeldimitrov/docker-mongodump-s3
