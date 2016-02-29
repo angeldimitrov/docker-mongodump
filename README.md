@@ -12,4 +12,4 @@ Docker image with mongodump running as a cron task based on istepanov/mongodump 
         -e 'S3_ACCESS_KEY=YOUR_S3_ACCESS_KEY' \
         -e 'S3_SECRET_KEY=YOUR_S3_SECRET_KEY' \
         -e 'S3_BUCKET=s3://YOUR_S3_BUCKET' \
-        angeldimitrov/docker-mongodump-s3
+        sourcestream/docker-mongodump-s3
